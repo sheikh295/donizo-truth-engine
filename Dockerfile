@@ -13,7 +13,6 @@ RUN apt-get update && \
 # Copy dependency files
 COPY requirements.txt setup.py ./
 COPY donizo_engine/ ./donizo_engine/
-COPY docs/donizo_truth_engine_prd.md ./
 
 # Install Python dependencies
 RUN pip install --no-cache-dir --upgrade pip && \

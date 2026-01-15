@@ -1,11 +1,7 @@
 from setuptools import setup, find_packages
-import os
 
-# Read long description if file exists
+# Long description
 long_description = "Deterministic financial pricing engine for construction markets"
-if os.path.exists("docs/donizo_truth_engine_prd.md"):
-    with open("docs/donizo_truth_engine_prd.md", "r") as f:
-        long_description = f.read()
 
 setup(
     name="donizo-engine",
