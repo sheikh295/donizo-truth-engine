@@ -35,25 +35,25 @@ class DonizoMenu:
 
     def print_menu(self):
         """Print the main menu options."""
-        print("\n📋 MAIN MENU:")
+        print("\nMAIN MENU:")
         print("-" * 60)
-        print("  [1] 🧪 Run All Tests")
-        print("  [2] 📊 Generate Test Data (1000+ events)")
-        print("  [3] ▶️  Run Engine (Process Events)")
-        print("  [4] 🔄 Replay Mode (Verify Determinism)")
-        print("  [5] 📁 View Generated Files")
-        print("  [6] 📈 Show Statistics")
-        print("  [7] 🧹 Clean Generated Files")
-        print("  [8] ℹ️  Help & Documentation")
-        print("  [9] 🐚 Open Shell (Advanced)")
-        print("  [0] 🚪 Exit")
+        print("  [1] Run All Tests")
+        print("  [2] Generate Test Data (1000+ events)")
+        print("  [3] Run Engine (Process Events)")
+        print("  [4] Replay Mode (Verify Determinism)")
+        print("  [5] View Generated Files")
+        print("  [6] Show Statistics")
+        print("  [7] Clean Generated Files")
+        print("  [8] Help & Documentation")
+        print("  [9] Open Shell (Advanced)")
+        print("  [0] Exit")
         print("-" * 60)
 
     def run_tests(self):
         """Run the test suite."""
         self.clear_screen()
         self.print_header()
-        print("🧪 Running Test Suite...\n")
+        print("Running Test Suite...\n")
         print("=" * 60)
 
         try:
@@ -63,11 +63,11 @@ class DonizoMenu:
             )
             print("\n" + "=" * 60)
             if result.returncode == 0:
-                print("✅ All tests passed!")
+                print("[OK] All tests passed!")
             else:
-                print("❌ Some tests failed. Review output above.")
+                print("[FAIL] Some tests failed. Review output above.")
         except Exception as e:
-            print(f"❌ Error running tests: {e}")
+            print(f"[ERROR] Error running tests: {e}")
 
         input("\nPress Enter to continue...")
 
@@ -75,7 +75,7 @@ class DonizoMenu:
         """Generate synthetic test data."""
         self.clear_screen()
         self.print_header()
-        print("📊 Generating Synthetic Test Data...\n")
+        print("Generating Synthetic Test Data...\n")
         print("=" * 60)
 
         try:
@@ -89,15 +89,15 @@ class DonizoMenu:
 
             print("\n" + "=" * 60)
             if result.returncode == 0:
-                print("✅ Test data generated successfully!")
+                print("[OK] Test data generated successfully!")
                 if self.events_file.exists():
                     line_count = sum(1 for _ in open(self.events_file))
-                    print(f"📄 Created: {self.events_file}")
-                    print(f"📊 Events: {line_count}")
+                    print(f"Created: {self.events_file}")
+                    print(f"Events: {line_count}")
             else:
-                print("❌ Data generation failed.")
+                print("[FAIL] Data generation failed.")
         except Exception as e:
-            print(f"❌ Error: {e}")
+            print(f"[ERROR] {e}")
 
         input("\nPress Enter to continue...")
 
@@ -105,11 +105,11 @@ class DonizoMenu:
         """Run the pricing engine."""
         self.clear_screen()
         self.print_header()
-        print("▶️  Running Pricing Engine...\n")
+        print("Running Pricing Engine...\n")
 
         # Check if events file exists
         if not self.events_file.exists():
-            print("⚠️  No events.jsonl found!")
+            print("[WARNING] No events.jsonl found!")
             print("   Would you like to generate test data first? (y/n): ", end="")
             if input().lower() == 'y':
                 self.generate_data()
@@ -119,9 +119,9 @@ class DonizoMenu:
                 return
 
         print("=" * 60)
-        print(f"📥 Input:  {self.events_file}")
-        print(f"💾 State:  {self.state_file}")
-        print(f"📝 Audit:  {self.audit_file}")
+        print(f"Input:  {self.events_file}")
+        print(f"State:  {self.state_file}")
+        print(f"Audit:  {self.audit_file}")
         print("=" * 60)
         print()
 
@@ -135,12 +135,12 @@ class DonizoMenu:
 
             print("\n" + "=" * 60)
             if result.returncode == 0:
-                print("✅ Engine completed successfully!")
+                print("[OK] Engine completed successfully!")
 
                 # Show quick stats
                 if self.audit_file.exists():
                     line_count = sum(1 for _ in open(self.audit_file))
-                    print(f"📊 Processed {line_count} events")
+                    print(f"Processed {line_count} events")
 
                     # Get final hash
                     with open(self.audit_file, 'r') as f:
@@ -148,11 +148,11 @@ class DonizoMenu:
                         if lines:
                             import json
                             last_entry = json.loads(lines[-1])
-                            print(f"🔐 Final Hash: {last_entry['rules_hash'][:16]}...")
+                            print(f"Final Hash: {last_entry['rules_hash'][:16]}...")
             else:
-                print("❌ Engine failed. Review errors above.")
+                print("[FAIL] Engine failed. Review errors above.")
         except Exception as e:
-            print(f"❌ Error: {e}")
+            print(f"[ERROR] {e}")
 
         input("\nPress Enter to continue...")
 
@@ -160,15 +160,15 @@ class DonizoMenu:
         """Run replay mode with verification."""
         self.clear_screen()
         self.print_header()
-        print("🔄 Replay Mode - Determinism Verification\n")
+        print("Replay Mode - Determinism Verification\n")
 
         if not self.events_file.exists():
-            print("⚠️  No events.jsonl found! Generate data first.")
+            print("[WARNING] No events.jsonl found! Generate data first.")
             input("\nPress Enter to continue...")
             return
 
         if not self.state_file.exists():
-            print("⚠️  No state file found! Run engine first.")
+            print("[WARNING] No state file found! Run engine first.")
             input("\nPress Enter to continue...")
             return
 
@@ -188,7 +188,7 @@ class DonizoMenu:
             with open(hash_file, 'w') as f:
                 f.write(expected_hash)
 
-            print(f"✅ Expected hash: {expected_hash[:32]}...")
+            print(f"[OK] Expected hash: {expected_hash[:32]}...")
             print("\nStep 2: Running replay...")
             print("=" * 60)
             print()
@@ -207,14 +207,14 @@ class DonizoMenu:
 
             print("\n" + "=" * 60)
             if result.returncode == 0:
-                print("✅ DETERMINISM VERIFIED!")
+                print("[OK] DETERMINISM VERIFIED!")
                 print("   Replay produced identical results.")
             else:
-                print("❌ Determinism check failed!")
+                print("[FAIL] Determinism check failed!")
                 print("   This should not happen - please investigate.")
 
         except Exception as e:
-            print(f"❌ Error: {e}")
+            print(f"[ERROR] {e}")
 
         input("\nPress Enter to continue...")
 
@@ -222,7 +222,7 @@ class DonizoMenu:
         """View generated files."""
         self.clear_screen()
         self.print_header()
-        print("📁 Generated Files:\n")
+        print("Generated Files:\n")
         print("=" * 60)
 
         files = [
@@ -238,11 +238,11 @@ class DonizoMenu:
                 size = filepath.stat().st_size
                 if filename.endswith('.jsonl'):
                     line_count = sum(1 for _ in open(filepath))
-                    print(f"✅ {filename:20s} - {description:30s} ({line_count} lines, {size:,} bytes)")
+                    print(f"[OK] {filename:20s} - {description:30s} ({line_count} lines, {size:,} bytes)")
                 else:
-                    print(f"✅ {filename:20s} - {description:30s} ({size:,} bytes)")
+                    print(f"[OK] {filename:20s} - {description:30s} ({size:,} bytes)")
             else:
-                print(f"❌ {filename:20s} - Not found")
+                print(f"[--] {filename:20s} - Not found")
 
         print("\n" + "=" * 60)
         print("\nOptions:")
@@ -271,11 +271,11 @@ class DonizoMenu:
         """Show statistics about processed data."""
         self.clear_screen()
         self.print_header()
-        print("📈 Statistics & Analysis\n")
+        print("Statistics & Analysis\n")
         print("=" * 60)
 
         if not self.audit_file.exists():
-            print("⚠️  No audit log found. Run the engine first.")
+            print("[WARNING] No audit log found. Run the engine first.")
             input("\nPress Enter to continue...")
             return
 
@@ -325,7 +325,7 @@ class DonizoMenu:
                 print(f"  {item:30s}: {count:4d} events")
 
         except Exception as e:
-            print(f"❌ Error analyzing data: {e}")
+            print(f"[ERROR] Error analyzing data: {e}")
 
         print("\n" + "=" * 60)
         input("\nPress Enter to continue...")
@@ -334,9 +334,9 @@ class DonizoMenu:
         """Clean generated files."""
         self.clear_screen()
         self.print_header()
-        print("🧹 Clean Generated Files\n")
+        print("Clean Generated Files\n")
         print("=" * 60)
-        print("⚠️  WARNING: This will delete all generated files!")
+        print("WARNING: This will delete all generated files!")
         print()
         print("Files that will be deleted:")
 
@@ -354,7 +354,7 @@ class DonizoMenu:
             filepath = self.data_dir / filename
             if filepath.exists():
                 existing_files.append(filepath)
-                print(f"  ❌ {filename}")
+                print(f"  - {filename}")
 
         if not existing_files:
             print("  (No files to delete)")
@@ -367,10 +367,10 @@ class DonizoMenu:
         if confirm == "yes":
             for filepath in existing_files:
                 filepath.unlink()
-                print(f"✅ Deleted: {filepath.name}")
-            print("\n✅ Cleanup complete!")
+                print(f"Deleted: {filepath.name}")
+            print("\nCleanup complete!")
         else:
-            print("\n❌ Cleanup cancelled.")
+            print("\nCleanup cancelled.")
 
         input("\nPress Enter to continue...")
 
@@ -378,7 +378,7 @@ class DonizoMenu:
         """Show help and documentation."""
         self.clear_screen()
         self.print_header()
-        print("ℹ️  Help & Documentation\n")
+        print("Help & Documentation\n")
         print("=" * 60)
         print("""
 WORKFLOW:
@@ -413,10 +413,10 @@ FILES:
 
 GUARANTEES:
 -----------
-✓ Deterministic: Same inputs = same outputs
-✓ Integer-only math: No floating-point errors
-✓ Fully auditable: Every decision is logged
-✓ Replayable: Cryptographic verification
+- Deterministic: Same inputs = same outputs
+- Integer-only math: No floating-point errors
+- Fully auditable: Every decision is logged
+- Replayable: Cryptographic verification
 
 For detailed documentation, see README.md
         """)
@@ -427,7 +427,7 @@ For detailed documentation, see README.md
         """Open a bash shell for advanced users."""
         self.clear_screen()
         self.print_header()
-        print("🐚 Opening Shell (Advanced Mode)\n")
+        print("Opening Shell (Advanced Mode)\n")
         print("=" * 60)
         print("You are now in a bash shell.")
         print("Type 'exit' to return to the menu.")
@@ -470,7 +470,7 @@ For detailed documentation, see README.md
                 print("=" * 60 + "\n")
                 self.running = False
             else:
-                print("\n❌ Invalid option. Please try again.")
+                print("\n[ERROR] Invalid option. Please try again.")
                 input("\nPress Enter to continue...")
 
 
