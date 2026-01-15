@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  donizo-engine:
+    build: .
+    image: donizo-engine:latest
+    container_name: donizo-truth-engine
+    stdin_open: true
+    tty: true
+    volumes:
+      - ./data:/data
+    environment:
+      - PYTHONUNBUFFERED=1
+      - TERM=xterm-256color

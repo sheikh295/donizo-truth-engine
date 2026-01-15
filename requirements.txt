@@ -1,0 +1,8 @@
+# Core Dependencies
+click  # CLI interface
+pydantic  # Data validation with type safety
+
+# Testing
+pytest
+pytest-cov
+hypothesis  # Property-based testing
